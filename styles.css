@@ -1,0 +1,21 @@
+.timer-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: calc(100vh - 16px);
+  text-align: center;
+}
+
+#timer {
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 20vw;
+  margin-bottom: 40px;
+}
+
+.timer-controls button {
+  margin: 0 10px;
+  font-size: 6vw;
+  border: 1px solid grey;
+  border-radius: 4px;
+  cursor: pointer;
+}
