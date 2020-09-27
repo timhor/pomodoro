@@ -1,8 +1,11 @@
 const timer = document.querySelector('#timer');
 let interval;
 
-const duration = 25 * 60;
+const workDuration = 25 * 60;
+const breakDuration = 5 * 60;
 let remainingSeconds;
+
+let afterBreak = false;
 
 resetTimer();
 
@@ -11,31 +14,70 @@ function formatSeconds(seconds) {
   return new Date(seconds * 1000).toISOString().substring(14, 19);
 }
 
-function toggleTimer() {
-  if (interval) {
-    document.querySelector('#startStop').innerText = 'Start';
+function startTimer() {
+  hideButton('#start');
+  showButton('#stop');
+  if (afterBreak) {
+    afterBreak = false;
     resetInterval(interval);
-  } else {
-    document.querySelector('#startStop').innerText = 'Stop';
-    interval = setInterval(() => {
-      remainingSeconds -= 1;
-      timer.innerText = formatSeconds(remainingSeconds);
-      if (remainingSeconds === 0) {
-        resetInterval(interval);
-      }
-    }, 1000);
+    remainingSeconds = workDuration;
+    timer.innerText = formatSeconds(remainingSeconds);
   }
+  interval = setInterval(() => {
+    remainingSeconds -= 1;
+    timer.innerText = formatSeconds(remainingSeconds);
+    if (remainingSeconds <= 0) {
+      hideButton('#stop');
+      showButton('#break');
+      resetInterval(interval);
+    }
+  }, 1000);
+}
+
+function stopTimer() {
+  hideButton('#stop');
+  showButton('#start');
+  resetInterval(interval);
+}
+
+function startBreak() {
+  hideButton('#break');
+  showButton('#start');
+  afterBreak = true;
+  timer.innerText = formatSeconds(breakDuration);
+  remainingSeconds = breakDuration;
+  interval = setInterval(() => {
+    remainingSeconds -= 1;
+    timer.innerText = formatSeconds(remainingSeconds);
+    if (remainingSeconds <= 0) {
+      resetInterval(interval);
+    }
+  }, 1000);
 }
 
 function resetTimer() {
-  timer.innerText = formatSeconds(duration);
-  remainingSeconds = duration;
+  timer.innerText = formatSeconds(workDuration);
+  remainingSeconds = workDuration;
   if (interval) {
-    toggleTimer();
+    stopTimer();
   }
 }
 
 function resetInterval() {
   clearInterval(interval);
   interval = undefined;
+}
+
+function showButton(id) {
+  const element = document.querySelector(id);
+  if (element) {
+    element.removeAttribute('hidden');
+  }
+}
+
+function hideButton(id) {
+  const element = document.querySelector(id);
+  if (element) {
+    element.setAttribute('hidden', '');
+  }
 }

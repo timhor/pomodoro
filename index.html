@@ -11,8 +11,12 @@
     <div class="timer-wrapper">
       <div id="timer"></div>
       <div class="timer-controls">
-        <button id="startStop" type="button" onclick="toggleTimer()">
-          Start
+        <button id="start" type="button" onclick="startTimer()">Start</button>
+        <button id="stop" type="button" onclick="stopTimer()" hidden>
+          Stop
+        </button>
+        <button id="break" type="button" onclick="startBreak()" hidden>
+          Break
         </button>
         <button type="button" onclick="resetTimer()">Reset</button>
       </div>
