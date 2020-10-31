@@ -61,6 +61,8 @@ function startBreak() {
 }
 
 function resetTimer() {
+  hideButton('#break');
+  showButton('#start');
   timer.innerText = formatSeconds(workDuration);
   remainingSeconds = workDuration;
   if (interval) {
