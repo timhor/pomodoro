@@ -14,7 +14,9 @@ resetTimer();
 
 // format duration in seconds as MM:SS
 function formatSeconds(seconds) {
-  return new Date(seconds * 1000).toISOString().substring(14, 19);
+  const formatted = new Date(seconds * 1000).toISOString().substring(14, 19);
+  document.title = `Pomodoro Timer (${formatted})`;
+  return formatted;
 }
 
 function startTimer() {
