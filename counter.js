@@ -7,6 +7,9 @@ let remainingSeconds;
 
 let afterBreak = false;
 
+if ('Notification' in window && Notification.permission !== 'granted') {
+  Notification.requestPermission();
+}
 resetTimer();
 
 // format duration in seconds as MM:SS
@@ -30,6 +33,7 @@ function startTimer() {
       hideButton('#stop');
       showButton('#break');
       resetInterval(interval);
+      sendNotification('Time for a break!');
     }
   }, 1000);
 }
@@ -51,6 +55,7 @@ function startBreak() {
     timer.innerText = formatSeconds(remainingSeconds);
     if (remainingSeconds <= 0) {
       resetInterval(interval);
+      sendNotification('Back to work!');
     }
   }, 1000);
 }
@@ -79,5 +84,11 @@ function hideButton(id) {
   const element = document.querySelector(id);
   if (element) {
     element.setAttribute('hidden', '');
+  }
+}
+
+function sendNotification(message) {
+  if ('Notification' in window && Notification.permission === 'granted') {
+    new Notification(message);
   }
 }
